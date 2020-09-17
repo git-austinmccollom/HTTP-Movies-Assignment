@@ -14,6 +14,7 @@ const initialMovie = {
 export default function UpdateMovie(props) {
   const [movie, setMovie] = useState(initialMovie);
   const params = useParams();
+  const history = useHistory();
 
   const fetchMovie = (id) => {
     axios
@@ -27,40 +28,57 @@ export default function UpdateMovie(props) {
   }, [params.id]);
 
   const handleChange = (e) => {
-      const name = e.target.name;
-      const value = e.target.value;
-        setMovie({
-            ...movie,
-            [name]: value
-        })
-  }
+    const name = e.target.name;
+    const value = e.target.value;
+    setMovie({
+      ...movie,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:5000/api/movies/${params.id}`, movie)
+      .then((res) => {
+        console.log(res.data);
+        // history.push(`movies/${movie.id}`)
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
   return (
-    <form className={'update-form'}>
-      <label>Title
-          <input
-          type='text'
-          name='title'
+    <form className={"update-form"} onSubmit={handleSubmit}>
+      <label>
+        Title
+        <input
+          type="text"
+          name="title"
           value={movie.title}
           onChange={handleChange}
-          />
+        />
       </label>
-      <label>Director
-          <input
-          type='text'
-          name='director'
+      <label>
+        Director
+        <input
+          type="text"
+          name="director"
           value={movie.director}
           onChange={handleChange}
-          />
+        />
       </label>
-      <label>Metascore
-          <input
-          type='text'
-          name='metascore'
+      <label>
+        Metascore
+        <input
+          type="text"
+          name="metascore"
           value={movie.metascore}
           onChange={handleChange}
-          />
+        />
       </label>
+      <button>submit</button>
     </form>
   );
 }

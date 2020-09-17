@@ -90,3 +90,11 @@ body {
 /* .update-form label input {
   margin-left: 1%;
 } */
+
+.update-button {
+  width: 70px;
+  text-align: center;
+  border: 1px solid grey;
+  padding: 5px 10px;
+  background-color: lightseagreen;
+}
