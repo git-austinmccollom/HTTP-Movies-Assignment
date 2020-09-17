@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
 const initialMovie = {
-  id: 0,
+  id: null,
   title: "",
   director: "",
-  metascore: 0,
+  metascore: null,
   stars: [],
 };
 
@@ -71,7 +71,7 @@ export default function UpdateMovie(props) {
       <label>
         Metascore
         <input
-          type="text"
+          type="number"
           name="metascore"
           value={movie.metascore}
           onChange={handleChange}
