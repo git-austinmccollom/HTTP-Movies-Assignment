@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Star from "./Star";
 
 const initialMovie = {
   id: null,
@@ -12,6 +13,7 @@ const initialMovie = {
 
 export default function AddMovie({ getMovieList }) {
   const [movie, setMovie] = useState(initialMovie);
+  const [starTemp, setStarTemp] = useState("");
   const history = useHistory();
 
   const handleChange = (e) => {
@@ -23,6 +25,10 @@ export default function AddMovie({ getMovieList }) {
     });
   };
 
+  const handleStarChange = (e) => {
+    setStarTemp(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -30,11 +36,19 @@ export default function AddMovie({ getMovieList }) {
       .then((res) => {
         console.log(res.data);
         getMovieList();
-        history.push(`/`)
+        history.push(`/`);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  const addStar = (e) => {
+    setMovie({
+      ...movie,
+      stars: [...movie.stars, starTemp],
+    });
+    setStarTemp("");
   };
 
   return (
@@ -66,16 +80,29 @@ export default function AddMovie({ getMovieList }) {
           onChange={handleChange}
         />
       </label>
-      <button>submit</button>
-      {/* <label>
-          Stars
+      <label>
+        Add Star:
+        <div className="stars-div">
           <input
-          type='text'
-          name='stars'
-          value={movie.stars[0]}
-          onChange={handleStarsChange}
+            type="text"
+            name="stars"
+            value={starTemp}
+            onChange={handleStarChange}
           />
-      </label> */}
+          <button
+            type="button"
+            onClick={() => {
+              addStar();
+            }}
+          >
+            Add Star
+          </button>
+          {movie.stars.map((st) => {
+            return <p>{st}</p>;
+          })}
+        </div>
+      </label>
+      <button>submit</button>
     </form>
   );
 }
