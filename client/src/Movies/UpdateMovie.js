@@ -42,7 +42,7 @@ export default function UpdateMovie(props) {
       .put(`http://localhost:5000/api/movies/${params.id}`, movie)
       .then((res) => {
         console.log(res.data);
-        // history.push(`movies/${movie.id}`)
+        history.push(`/movies/${movie.id}`)
       })
       .catch((err) => {
         console.error(err);
